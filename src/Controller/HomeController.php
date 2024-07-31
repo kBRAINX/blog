@@ -24,7 +24,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/admin/dashboard', name: 'dashboard')]
-    public function dashboard(EntityManagerInterface $em)
+    public function dashboard(EntityManagerInterface $em): Response
     {
         $services = $em->getRepository(Category::class)->findAllAndCountPost();
         $posts = $em->getRepository(Post::class)->findAll();
