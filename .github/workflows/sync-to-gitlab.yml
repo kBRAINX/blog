@@ -1,0 +1,21 @@
+name: Sync to GitLab
+
+on:
+  push:
+    branches:
+      - main # Ou la branche de votre choix
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Push to GitLab
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+        run: |
+          git remote add gitlab https://gitlab.com/kBRAINX/share-recipes.git
+          git push gitlab main
