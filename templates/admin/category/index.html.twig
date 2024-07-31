@@ -1,0 +1,147 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block body %}
+    <style>
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            width: 100%;
+            min-height: 100vh;
+            background-color: #f9f9f9;
+        }
+        .example-wrapper {
+            margin: 2em auto;
+            max-width: 900px;
+            width: 95%;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+            color: #5e9cf8;
+            margin-bottom: 1em;
+        }
+        .new-recipe-button {
+            display: block;
+            width: 150px;
+            margin: 0 auto 20px;
+            padding: 10px 20px;
+            background-color: #5e9cf8;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .new-recipe-button:hover {
+            background-color: #4a8bd4;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #dbfaf9;
+        }
+        .not-found{
+            text-align: center;
+            font-size: 35px;
+            font-weight: bold;
+        }
+        .head{
+            display: flex;
+        }
+        .category-image img {
+            flex: 1;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+        .category-details {
+            flex-grow: 1;
+        }
+        .category-details p {
+            margin: 0;
+            font-size: 22px;
+            color: #333;
+        }
+        .category-details span {
+            display: block;
+            font-size: 14px;
+            color: #999;
+        }
+        .category-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .category-actions a {
+            display: inline-block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .edit-icon {
+            width: 24px;
+            height: 24px;
+            fill: #5e9cf8;
+        }
+        .edit-icon:hover{
+            color: #4a8bd4;
+        }
+        .delete-icon{
+            width: 24px;
+            height: 24px;
+            fill: #e74c3c;
+        }
+        .delete-icon:hover{
+            fill: #c0392b;
+        }
+    </style>
+
+    <div class="main-content">
+        <div class="example-wrapper">
+            <h1>Services List</h1>
+            <a href="{{ path('admin.category.create') }}" class="new-recipe-button">New Category</a>
+            <ul>
+                {% for category in categories %}
+                    <li>
+                        <div class="head">
+                            <div class="category-image">
+                                <img src="{{ category.thumbnail ? '/images/categories/' ~ category.thumbnail : '/images/category.png' }}" alt="{{ category.getName }}">
+                            </div>
+                            <div class="category-details">
+                                <p>{{ category.getName }}</p>
+                                <span>Created At: {{ category.getCreatedAt|date('Y-m-d H:i') }}</span>
+                            </div>
+                        </div>
+                        <div class="category-actions">
+                            <a href="{{ path('admin.category.edit', {id: category.getId}) }}">
+                                <svg class="edit-icon" viewBox="0 0 24 24">
+                                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.92-2.92l7.06-7.06 1.75 1.75-7.06 7.06H5.92v-1.75H3v1.75h1.75v1.75h1.75v-1.75H8.42V15h-1.75v-1.75h-1.75v1.75h-1.75v-1.75H5.92v-1.75H3v1.75H5.92z"></path>
+                                </svg>
+                            </a>
+                            <a href="{{ path('admin.category.delete', {id: category.getId}) }}">
+                                <svg class="delete-icon" viewBox="0 0 24 24">
+                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2-10h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="not-found">No Category found</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Comment{% endblock %}
+
+{% block body %}
+    <style>
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            width: 100%;
+            min-height: 100vh;
+            background-color: #f9f9f9;
+        }
+        .create-form-wrapper {
+            margin: 2em auto;
+            max-width: 800px;
+            width: 95%;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+        }
+        .create-form-wrapper h2 {
+            text-align: center;
+            color: #5e9cf8;
+            margin-bottom: 1em;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        form div {
+            margin-bottom: 15px;
+        }
+        form label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        form input, form textarea, form select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+        }
+        form textarea {
+            height: 150px;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+        }
+        .btn-save {
+            background-color: #5e9cf8;
+            color: #fff;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            flex: 1;
+            margin-right: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .btn-save:hover {
+            background-color: #4a8bd4;
+        }
+        .btn-cancel {
+            background-color: #ccc;
+            color: #333;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+        .btn-cancel:hover {
+            background-color: #999;
+        }
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+    </style>
+
+    <div class="main-content">
+        <div class="create-form-wrapper">
+            <h2>Edit Comment</h2>
+            {{ form_start(form) }}
+            <div>
+                {{ form_label(form.content) }}
+                {{ form_widget(form.content) }}
+                {{ form_errors(form.content) }}
+            </div>
+            <div class="btn-group">
+                {{ form_widget(form.save, { 'attr': { 'class': 'btn-save' } }) }}
+                <a href="{{ path('post.index') }}" class="btn-cancel">Cancel</a>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

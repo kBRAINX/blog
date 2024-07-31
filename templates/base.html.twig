@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Deca-Techs{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+        <style>
+            body {
+                margin: 0;
+                font-family: 'Arial', sans-serif;
+                background-color: #f4f4f4;
+            }
+            header {
+                position: relative;
+                background: linear-gradient(to bottom right, #5e9cf8, #dbfaf9);
+                color: #fff;
+                padding: 20px 0;
+            }
+            nav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 30px;
+            }
+            nav .logo {
+                font-size: 30px;
+                font-weight: bold;
+            }
+            .logo a {
+                text-decoration: none;
+                color: #fff;
+            }
+            nav ul {
+                display: flex;
+                list-style: none;
+            }
+            nav ul li {
+                margin: 0 15px;
+            }
+            nav ul li a {
+                display: block;
+                margin-top: 10px;
+                color: #fff;
+                text-decoration: none;
+                font-size: 20px;
+            }
+            .nav-link{
+                color: #fff;
+                text-decoration: none;
+                font-size: 20px;
+                margin-right: 20px;
+            }
+            .action-button svg {
+                width: 30px;
+                height: 30px;
+                margin-right: 20px;
+                fill: #fff;
+            }
+            .action-button{
+                margin-top: 11px;
+                color: #fff;
+                text-decoration: none;
+                font-size: 20px;
+            }
+            nav .contact-btn {
+                font-size: 20px;
+                background-color: #fff;
+                color: #5e9cf8;
+                padding: 10px 20px;
+                text-decoration: none;
+                border-radius: 25px;
+            }
+            .nav-link{
+                font-size: 20px;
+            }
+            .nav-link.active {
+                 color: #2e7df1;
+            }
+            footer {
+                background-color: #333;
+                color: #fff;
+                text-align: center;
+                padding: 10px 0;
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="{{ path('home') }}">Deca Techs</a>
+            </div>
+            <ul>
+                <li>
+                    <a class="nav-link {{ app.current_route == 'home' ? 'active' : ''}}" href="{{ path('home') }}">Home</a>
+                </li>
+                <li>
+                    <a class="nav-link {{ app.current_route == 'service' ? 'active' : ''}}" href="{{ path('service') }}">Services</a>
+                </li>
+                <li>
+                    <a class="nav-link {{ app.current_route starts with 'post.' ? 'active' : ''}}" href="{{ path('post.index') }}">Blog</a>
+                </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li><a href="{{ path('dashboard') }}">Dashboard</a></li>
+                {% endif %}
+                {% if not is_granted('ROLE_USER') %}
+                    <a href="{{ path('app_register') }}" class="action-button">
+                        Register
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 18h-14v-4h2v3h10v-3h2v4zm-5.828-3h-2.344l1.172-1.171c-.453-.763-.826-1.615-1.084-2.464-.153-.505-.28-.995-.379-1.464-.105-.494-.188-.94-.241-1.34-.055-.403-.079-.74-.079-.961 0-.209.039-.393.087-.524.047-.126.118-.205.213-.234.097-.031.219-.004.377.057.158.061.366.153.625.275.238.11.45.21.635.299.261.124.485.229.668.315.09.042.196.072.324.084.125.012.283-.014.488-.057.2-.042.429-.09.679-.143l.052.05c-.036.104-.077.209-.122.313-.062.146-.144.294-.246.442-.1.146-.204.302-.315.464-.111.159-.23.318-.353.477-.124.156-.247.312-.374.462-.127.151-.255.3-.383.446-.136.158-.278.315-.423.466-.145.147-.292.294-.44.439-.151.152-.307.304-.467.45zm-2.172-1c.45-.016.9.007 1.346.066.457.06.914.157 1.364.286.307.087.618.189.929.304-.06.145-.11.291-.149.44-.068.253-.112.511-.132.771-.021.265-.032.535-.032.804 0 .265.012.522.033.774.02.249.064.494.132.736.043.151.097.305.159.464-.308.125-.62.243-.935.354-.446.146-.898.28-1.356.401-.46.118-.926.222-1.397.31-.07-.204-.14-.415-.209-.634-.146-.464-.292-.924-.434-1.377-.28-.91-.561-1.82-.846-2.728-.073-.229-.142-.464-.213-.703-.071-.243-.133-.489-.187-.737-.054-.251-.1-.503-.136-.754-.035-.25-.057-.497-.065-.736.007-.22.039-.417.073-.565.034-.147.073-.224.104-.224.025 0 .055.059.086.169.03.112.063.252.095.413z"></path></svg>
+                    </a>
+                    <a href="{{ path('app_login') }}" class="action-button">
+                        Login
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3h12v18h-12v-6h2v4h8v-14h-8v4h-2v-6zm4.828 9l-1.172 1.171c.453.763.826 1.615 1.084 2.464.153.505.28.995.379 1.464.105.494.188.94.241 1.34.055.403.079.74.079.961 0 .209-.039.393-.087.524-.047.126-.118.205-.213.234-.097.031-.219.004-.377-.057-.158-.061-.366-.153-.625-.275-.238-.11-.45-.21-.635-.299-.261-.124-.485-.229-.668-.315-.09-.042-.196-.072-.324-.084-.125-.012-.283.014-.488.057-.2.042-.429.09-.679.143l-.052-.05c.036-.104.077-.209.122-.313.062-.146.144-.294.246-.442.1-.146.204-.302.315-.464.111-.159.23-.318.353-.477.124-.156.247-.312.374-.462.127-.151.255-.3.383-.446.136-.158.278-.315.423-.466.145-.147.292-.294.44-.439.151-.152.307-.304.467-.45zm2.172 1c-.45.016-.9-.007-1.346-.066-.457-.06-.914-.157-1.364-.286-.307-.087-.618-.189-.929-.304.06-.145.11-.291.149-.44.068-.253.112-.511.132-.771.021-.265.032-.535.032-.804 0-.265-.012-.522-.033-.774-.02-.249-.064-.494-.132-.736-.043-.151-.097-.305-.159-.464.308-.125.62-.243.935-.354.446-.146.898-.28 1.356-.401.46-.118.926-.222 1.397-.31.07.204.14.415.209.634.146.464.292.924.434 1.377.28.91.561 1.82.846 2.728.073.229.142.464.213.703.071.243.133.489.187.737.054.251.1.503.136.754.035.25.057.497.065.736-.007.22-.039.417-.073.565-.034.147-.073.224-.104.224-.025 0-.055-.059-.086-.169-.03-.112-.063-.252-.095-.413z"></path></svg>
+                    </a>
+                {% else %}
+                    <li>
+                        <a href="{{ path('app_logout') }}" class="action-button">
+                            Logout
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16 13v-2h-8v-2h8v-2l3 3-3 3zm2-11h-16v18h16v-6h-2v4h-12v-14h12v4h2v-6zm2-2h-18c-1.104 0-2 .896-2 2v18c0 1.104.896 2 2 2h18c1.104 0 2-.896 2-2v-18c0-1.104-.896-2-2-2z"></path></svg>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+            <a href="{{ path('contact') }}" class="contact-btn">Contact Us</a>
+        </nav>
+    </header>
+        {# include of page to manage message action #}
+        {% include 'partials/flash.html.twig' %}
+        {% block body %}{% endblock %}
+
+        <footer>
+            <p>&copy; 2024 My Website. All Rights Reserved.</p>
+        </footer>
+    </body>
+</html>

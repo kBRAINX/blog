@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block body %}
+    <style>
+        .contact-form-wrapper {
+            margin: 150px auto;
+            max-width: 600px;
+            width: 95%;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+        }
+        .contact-form-wrapper h2 {
+            text-align: center;
+            color: #5e9cf8;
+            margin-bottom: 1em;
+            font-size: 2em;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        form div {
+            display: flex;
+            flex-direction: column;
+        }
+        form label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 1em;
+        }
+        form input, form textarea {
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            width: calc(100% - 1px);
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+        form input:focus, form textarea:focus {
+            border-color: #5e9cf8;
+            outline: none;
+        }
+        form textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        .btn-send {
+            margin-top: 20px;
+            background-color: #5e9cf8;
+            color: #fff;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s ease;
+            align-self: center;
+            width: 100%;
+        }
+        .btn-send:hover {
+            background-color: #5196fc;
+        }
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+    </style>
+
+    <div class="contact-form-wrapper">
+        <h2>Contact Us</h2>
+        {{ form_start(form) }}
+        <div>
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+            {{ form_errors(form.name) }}
+        </div>
+        <div>
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email) }}
+            {{ form_errors(form.email) }}
+        </div>
+        <div>
+            {{ form_label(form.message) }}
+            {{ form_widget(form.message) }}
+            {{ form_errors(form.message) }}
+        </div>
+        <div>
+            {{ form_widget(form.send, { 'attr': {'class': 'btn-send'} }) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

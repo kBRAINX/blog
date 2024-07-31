@@ -1,0 +1,129 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+}
+
+nav {
+    width: 250px;
+    height: 100vh;
+    background-color: #d6f2fd;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+nav .logo-name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 50px;
+}
+
+nav .logo-name a{
+    text-decoration: none;
+}
+
+nav .logo-name img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: auto 50px 10px 50px;
+}
+
+nav .logo-name .logo_name{
+    font-size: 30px;
+    font-weight: bold;
+    color: #000000;
+    font-family: 'Arial', sans-serif;
+    justify-content: center;
+}
+
+nav .menu-items {
+    flex-grow: 1;
+}
+
+nav .menu-items ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav .menu-items ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #fcfdfd;
+}
+
+nav .menu-items ul li a {
+    width: 100%;
+    text-decoration: none;
+    color: #000;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s, color 0.3s;
+}
+nav .menu-items ul li a i{
+    font-size: 24px;
+    height: 30px;
+    width: 30px;
+}
+
+nav .menu-items ul li a.active {
+    background-color: #2e7df1;
+    color: #ffffff;
+}
+
+nav .menu-items ul li a:hover {
+    background-color: #f1f1f1;
+    color: #333333;
+}
+
+nav .menu-items .logout-mode {
+    border-top: 1px solid #fcfdfd;
+    margin-top: 220px;
+}
+
+nav .menu-items .logout-mode li a.logout i, nav .menu-items .logout-mode li a.logout .link-name{
+    color: #f33054;
+}
+
+nav .menu-items .logout-mode .mode-toggle {
+    margin-left: auto;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #f1f1f1;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    width: calc(100% - 250px);
+    margin-left: 250px;
+    position: fixed;
+    bottom: 0;
+}
+
+footer p {
+    margin: 0;
+    color: #000;
+    font-size: 14px;
+}
+main{
+    padding: 20px;
+    width: calc(100% - 250px);
+    min-height: 100vh;
+    background-color: #f9f9f9;
+}

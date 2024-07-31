@@ -1,0 +1,468 @@
+{% extends 'home.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+        }
+        header {
+            position: relative;
+            background: linear-gradient(to bottom right, #5e9cf8, #dbfaf9);
+            color: #fff;
+            padding: 20px 0 0 0;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+        }
+        nav .logo {
+            font-size: 30px;
+            font-weight: bold;
+        }
+        .logo a{
+            text-decoration: none;
+            color: #fff;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+        }
+        .nav-link{
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+        }
+        .action-button svg {
+            width: 30px;
+            height: 30px;
+            margin-right: 20px;
+            fill: #fff;
+        }
+        .action-button{
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+        }
+        .nav-link.active {
+            color: #2e7df1;
+            font-size: 20px;
+        }
+        nav .contact-btn {
+            font-size: 20px;
+            background-color: #fff;
+            color: #5e9cf8;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 25px;
+        }
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 100px 50px 0 50px;
+        }
+        .hero-text {
+            margin-left: 150px;
+            max-width: 800px;
+        }
+        .hero-text h1 {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        .hero-text p {
+            font-size: 25px;
+            margin-bottom: 50px;
+        }
+        .hero .case-study-btn {
+            background-color: #fff;
+            color: #5e9cf8;
+            padding: 20px 35px;
+            text-decoration: none;
+            border-radius: 40px;
+            font-size: 20px;
+            margin: auto 250px;
+        }
+        .hero-image img {
+            max-width: 1000px;
+            margin-right: 100px;
+        }
+        .wave {
+            display: flex;
+            position: relative;
+            width: 100%;
+            height: 100px;
+            margin-top: -5px;
+            overflow: hidden;
+        }
+        .wave svg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .services {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #fff;
+        }
+        .services h2 {
+            font-size: 36px;
+            margin-bottom: 40px;
+        }
+        .service-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+        }
+        .service-card {
+            margin: auto 30px;
+            height: 270px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: calc(32% - 10px);
+            max-width: 250px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .service-card img {
+            width: 200px;
+            height: 150px;
+            margin-bottom: 5px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .service-card h3 {
+            font-size: 24px;
+            margin: 10px 0 5px;
+        }
+        .service-card p {
+            color: #333;
+            padding: 0 10px 10px;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        .how-it-works {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .how-it-works-title {
+            flex: 1 1 45%;
+            text-align: center;
+            padding-top: 120px;
+        }
+        .how-it-works-title h2{
+            font-size: 60px;
+        }
+        .how-it-works-steps {
+            flex: 1 1 45%;
+            padding: 10px;
+            border-left: 2px solid #5e9cf8;
+        }
+        .step {
+            margin: 20px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        .step::before {
+            content: attr(data-step);
+            position: absolute;
+            left: -30px;
+            top: 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #5e9cf8;
+            background: #fff;
+            border: 2px solid #5e9cf8;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .step p {
+            margin: 0;
+            font-size: 18px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .step strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 20px;
+            color: #5e9cf8;
+        }
+        .previous-work {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #fff;
+        }
+        .recent-posts {
+            padding: 40px 20px;
+            background-color: #f9f9f9;
+        }
+
+        .section-title h2 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .posts-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .post-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: calc(20% - 20px);
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+        }
+
+        .post-content {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .post-content h3 {
+            font-size: 1.5em;
+            color: #5e9cf8;
+            margin-bottom: 10px;
+        }
+
+        .post-category {
+            font-size: 0.9em;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .post-content p {
+            flex-grow: 1;
+            color: #555;
+        }
+
+        .read-more {
+            text-align: center;
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 15px;
+            background-color: #5e9cf8;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .read-more:hover {
+            background-color: #4a8bd4;
+        }
+
+        .get-posts-container {
+            text-align: center;
+            margin-top: 40px;
+            border-radius: 5px;
+        }
+
+        .get-posts-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #5e9cf8;
+            color: #fff;
+            font-size: 18px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .get-posts-button:hover {
+            background-color: #4a8bd4;
+        }
+            /*responsive*/
+        @media (max-width: 1200px) {
+            .post-card {
+                width: calc(33.33% - 20px);
+            }
+        }
+        @media (max-width: 768px) {
+            .post-card {
+                width: calc(50% - 20px);
+            }
+        }
+        @media (max-width: 480px) {
+            .post-card {
+                width: 100%;
+            }
+        }
+
+    </style>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="{{ path('home') }}"> Deca Techs </a>
+            </div>
+            <ul>
+                <li><a class="nav-link {{ app.current_route == 'home' ? 'active' : ''}}" href="{{ path('home') }}">Home</a></li>
+                <li><a class="nav-link {{ app.current_route == 'service' ? 'active' : ''}}" href="{{ path('service') }}">Services</a></li>
+                <li><a href="{{ path('post.index') }}">Blog</a></li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li><a href="{{ path('dashboard') }}">Dashboard</a></li>
+                {% endif %}
+                {% if not is_granted('ROLE_USER') %}
+                    <a href="{{ path('app_register') }}" class="action-button">
+                        Register
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 18h-14v-4h2v3h10v-3h2v4zm-5.828-3h-2.344l1.172-1.171c-.453-.763-.826-1.615-1.084-2.464-.153-.505-.28-.995-.379-1.464-.105-.494-.188-.94-.241-1.34-.055-.403-.079-.74-.079-.961 0-.209.039-.393.087-.524.047-.126.118-.205.213-.234.097-.031.219-.004.377.057.158.061.366.153.625.275.238.11.45.21.635.299.261.124.485.229.668.315.09.042.196.072.324.084.125.012.283-.014.488-.057.2-.042.429-.09.679-.143l.052.05c-.036.104-.077.209-.122.313-.062.146-.144.294-.246.442-.1.146-.204.302-.315.464-.111.159-.23.318-.353.477-.124.156-.247.312-.374.462-.127.151-.255.3-.383.446-.136.158-.278.315-.423.466-.145.147-.292.294-.44.439-.151.152-.307.304-.467.45zm-2.172-1c.45-.016.9.007 1.346.066.457.06.914.157 1.364.286.307.087.618.189.929.304-.06.145-.11.291-.149.44-.068.253-.112.511-.132.771-.021.265-.032.535-.032.804 0 .265.012.522.033.774.02.249.064.494.132.736.043.151.097.305.159.464-.308.125-.62.243-.935.354-.446.146-.898.28-1.356.401-.46.118-.926.222-1.397.31-.07-.204-.14-.415-.209-.634-.146-.464-.292-.924-.434-1.377-.28-.91-.561-1.82-.846-2.728-.073-.229-.142-.464-.213-.703-.071-.243-.133-.489-.187-.737-.054-.251-.1-.503-.136-.754-.035-.25-.057-.497-.065-.736.007-.22.039-.417.073-.565.034-.147.073-.224.104-.224.025 0 .055.059.086.169.03.112.063.252.095.413z"></path></svg>
+                    </a>
+                    <a href="{{ path('app_login') }}" class="action-button">
+                        Login
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3h12v18h-12v-6h2v4h8v-14h-8v4h-2v-6zm4.828 9l-1.172 1.171c.453.763.826 1.615 1.084 2.464.153.505.28.995.379 1.464.105.494.188.94.241 1.34.055.403.079.74.079.961 0 .209-.039.393-.087.524-.047.126-.118.205-.213.234-.097.031-.219.004-.377-.057-.158-.061-.366-.153-.625-.275-.238-.11-.45-.21-.635-.299-.261-.124-.485-.229-.668-.315-.09-.042-.196-.072-.324-.084-.125-.012-.283.014-.488.057-.2.042-.429.09-.679.143l-.052-.05c.036-.104.077-.209.122-.313.062-.146.144-.294.246-.442.1-.146.204-.302.315-.464.111-.159.23-.318.353-.477.124-.156.247-.312.374-.462.127-.151.255-.3.383-.446.136-.158.278-.315.423-.466.145-.147.292-.294.44-.439.151-.152.307-.304.467-.45zm2.172 1c-.45.016-.9-.007-1.346-.066-.457-.06-.914-.157-1.364-.286-.307-.087-.618-.189-.929-.304.06-.145.11-.291.149-.44.068-.253.112-.511.132-.771.021-.265.032-.535.032-.804 0-.265-.012-.522-.033-.774-.02-.249-.064-.494-.132-.736-.043-.151-.097-.305-.159-.464.308-.125.62-.243.935-.354.446-.146.898-.28 1.356-.401.46-.118.926-.222 1.397-.31.07.204.14.415.209.634.146.464.292.924.434 1.377.28.91.561 1.82.846 2.728.073.229.142.464.213.703.071.243.133.489.187.737.054.251.1.503.136.754.035.25.057.497.065.736-.007.22-.039.417-.073.565-.034.147-.073.224-.104.224-.025 0-.055-.059-.086-.169-.03-.112-.063-.252-.095-.413z"></path></svg>
+                    </a>
+                {% else %}
+                    <li>
+                        <a href="{{ path('app_logout') }}" class="action-button">
+                            Logout
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16 13v-2h-8v-2h8v-2l3 3-3 3zm2-11h-16v18h16v-6h-2v4h-12v-14h12v4h2v-6zm2-2h-18c-1.104 0-2 .896-2 2v18c0 1.104.896 2 2 2h18c1.104 0 2-.896 2-2v-18c0-1.104-.896-2-2-2z"></path></svg>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+            <a href="{{ path('contact') }}" class="contact-btn">Contact Us</a>
+        </nav>
+        <div class="hero">
+            <div class="hero-text">
+                <h1>We Give Perfect Solution of Your Problem</h1>
+                <p>We design project not only for looking pretty, but for work too, to solve the problem of your design so you can grow your business.</p>
+                <a href="{{ path('post.index') }}" class="case-study-btn">Ask your problem?</a>
+            </div>
+            <div class="hero-image">
+                <img src="{{ asset('images/hero.png') }}" alt="Hero Image">
+            </div>
+        </div>
+        <div class="wave">
+            <svg viewBox="0 0 7610 320">
+                <path fill="#fff" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,112C384,139,480,181,576,197.3C672,213,768,203,864,176C960,149,1056,107,1152,122.7C1248,139,1344,213,1392,250.7L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+            <svg viewBox="0 -55 5310 320">
+                <path fill="#fff" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,112C384,139,480,181,576,197.3C672,213,768,203,864,176C960,149,1056,107,1152,122.7C1248,139,1344,213,1392,250.7L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+            <svg viewBox="0 -110 3210 320">
+                <path fill="#fff" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,112C384,139,480,181,576,197.3C672,213,768,203,864,176C960,149,1056,107,1152,122.7C1248,139,1344,213,1392,250.7L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+            <svg viewBox="-3001 -65 100 320">
+                <path fill="#fff" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,112C384,139,480,181,576,197.3C672,213,768,203,864,176C960,149,1056,107,1152,122.7C1248,139,1344,213,1392,250.7L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+            <svg viewBox="-2001 0 100 320">
+                <path fill="#fff" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,112C384,139,480,181,576,197.3C672,213,768,203,864,176C960,149,1056,107,1152,122.7C1248,139,1344,213,1392,250.7L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+            <svg viewBox="-1001 -165 2900 320">
+                <path fill="#fff" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,112C384,139,480,181,576,197.3C672,213,768,203,864,176C960,149,1056,107,1152,122.7C1248,139,1344,213,1392,250.7L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+            <svg viewBox="0 0 1440 320">
+                <path fill="#fff" fill-opacity="1" d="M1440,64L1392,69.3C1344,75,1248,85,1152,112C1056,139,960,181,864,197.3C768,213,672,203,576,176C480,149,384,107,288,122.7C192,139,96,213,48,250.7L0,288L0,320L48,320C96,320,192,320,288,320C384,320,480,320,576,320C672,320,768,320,864,320C960,320,1056,320,1152,320C1248,320,1344,320,1392,320L1440,320Z"></path>
+            </svg>
+            <svg viewBox="-1001 1 600 320">
+                <path fill="#fff" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,112C384,139,480,181,576,197.3C672,213,768,203,864,176C960,149,1056,107,1152,122.7C1248,139,1344,213,1392,250.7L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+        </div>
+    </header>
+    <section class="services">
+        <h2>Our Service</h2>
+        <div class="service-cards">
+            {% for category in categories|slice(0, 7) %}
+                <div class="service-card">
+                    <img src="{{ category.thumbnail ? '/images/categories/' ~ category.thumbnail : '/images/category.png' }}" alt="{{ category.getName }}">
+                    <h3><strong> {{ category.name }} </strong></h3>
+                    <p> {{ category.description| default('')}} </p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <div class="how-it-works-title">
+            <h2>How It Works</h2>
+        </div>
+        <div class="how-it-works-steps">
+            <div class="step" data-step="1">
+                <strong>Register</strong>
+                <p>Create a free account by providing your details. Customize your profile and set your interests.</p>
+            </div>
+            <div class="step" data-step="2">
+                <strong>Explore Blogs</strong>
+                <p>Browse through a variety of blog posts shared by other users. Use search and filter options to find content that interests you.</p>
+            </div>
+            <div class="step" data-step="3">
+                <strong>Create Your Own Posts</strong>
+                <p>Write and publish your own blog posts. Include text, images, and videos to make your content engaging.</p>
+            </div>
+            <div class="step" data-step="4">
+                <strong>Engage with the Community</strong>
+                <p>Comment on and like posts you enjoy. Follow other users to keep up with their latest content.</p>
+            </div>
+            <div class="step" data-step="5">
+                <strong>Stay Updated</strong>
+                <p>Receive notifications for new posts, comments, and updates from users you follow.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="recent-posts">
+        <div class="section-title">
+            <h2>Recent Posts</h2>
+        </div>
+        <div class="posts-container">
+            {% for post in posts|slice(0, 5) %}
+                <div class="post-card">
+                    <div class="post-content">
+                        <h3>{{ post.title }}</h3>
+                        <span class="post-category">{{ post.category.name }}</span>
+                        <p>{{ post.content|slice(0, 100) }}{% if post.content|length > 100 %}...{% endif %}</p>
+                        <a href="{{ path('post.show', {id: post.id}) }}" class="read-more">Read More</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="get-posts-container">
+            <a href="{{ path('post.index') }}" class="get-posts-button">Get Posts</a>
+        </div>
+    </section>
+
+    <section class="previous-work">
+        <h2>See Our Previous Work</h2>
+    </section>
+{% endblock %}

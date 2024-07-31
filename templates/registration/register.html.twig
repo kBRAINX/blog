@@ -1,0 +1,136 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 500px;
+            margin: 180px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .container h1 {
+            color: #5e9cf8;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .container .logo{
+            text-align: center;
+            color: #5e9cf8;
+            font-size: 50px;
+            margin-bottom: 1em;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .form-check {
+            margin: 5px auto 10px -12px;
+            display: flex;
+            align-items: center;
+        }
+        .form-check input {
+            margin-right: 10px;
+        }
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 10px;
+            background-color: #5e9cf8;
+            color: #fff;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #4f91f3;
+        }
+        .login-prompt {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .login-prompt p {
+            margin: 0;
+            font-size: 14px;
+            color: #555;
+        }
+        .login-prompt a {
+            display: inline-block;
+            margin-top: 5px;
+            color: #5e9cf8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .login-prompt a:hover {
+            color: #5495f6;
+        }
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+    </style>
+
+    <div class="container">
+        <h1 class="logo">Deca-Techs</h1>
+
+        <h1>Register</h1>
+
+        {{ form_errors(registrationForm) }}
+
+        {{ form_start(registrationForm) }}
+        <div class="form-group">
+            {{ form_label(registrationForm.username) }}
+            {{ form_widget(registrationForm.username) }}
+            {{ form_errors(registrationForm.username) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(registrationForm.email) }}
+            {{ form_widget(registrationForm.email) }}
+            {{ form_errors(registrationForm.email) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(registrationForm.plainPassword, 'Password') }}
+            {{ form_widget(registrationForm.plainPassword) }}
+            {{ form_errors(registrationForm.plainPassword) }}
+        </div>
+        <div class="form-group form-check">
+            {{ form_widget(registrationForm.agreeTerms) }}
+            {{ form_label(registrationForm.agreeTerms) }}
+            {{ form_errors(registrationForm.agreeTerms) }}
+        </div>
+
+        <div class="form-group login-prompt">
+            <p>If you already have an account, click here</p>
+            <a href="{{ path('app_login') }}">Login</a>
+        </div>
+
+        <button type="submit" class="btn">Register</button>
+        {{ form_end(registrationForm) }}
+    </div>
+{% endblock %}

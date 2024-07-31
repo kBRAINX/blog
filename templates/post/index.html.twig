@@ -1,0 +1,198 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog Posts{% endblock %}
+
+{% block body %}
+    <style>
+        .blog-container {
+            max-width: 1200px;
+            margin: 2em auto;
+            padding: 0 20px;
+        }
+        .new-post-button {
+            text-decoration: none;
+            display: block;
+            width: 150px;
+            margin: 0 auto 20px;
+            padding: 10px 20px;
+            background-color: #5e9cf8;
+            color: #fff;
+            font-size: 20px;
+            text-align: center;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .new-post-button:hover {
+            background-color: #4a8bd4;
+        }
+        .show {
+            text-decoration: none;
+        }
+        .post-card {
+            position: relative;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2em;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .post-card h2 {
+            color: #5e9cf8;
+            margin-bottom: 0.5em;
+            text-decoration: none;
+        }
+        .post-meta {
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 1em;
+        }
+        .author {
+            font-size: 16px;
+            color: #333333;
+            flex-wrap: wrap;
+        }
+        .post-content {
+            margin-bottom: 1em;
+            color: #333;
+            line-height: 1.6;
+            font-size: 20px;
+        }
+        .edit-icon {
+            position: absolute;
+            top: 20px;
+            right: 70px;
+            width: 35px;
+            height: 35px;
+            fill: #5e9cf8;
+            cursor: pointer;
+            transition: fill 0.3s ease;
+        }
+        .edit-icon:hover {
+            fill: #4a8bd4;
+        }
+        .delete-icon {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            width: 35px;
+            height: 35px;
+            fill: #e74c3c;
+            cursor: pointer;
+            transition: fill 0.3s ease;
+        }
+        .delete-icon:hover {
+            fill: #c0392b;
+        }
+        .comment-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #5e9cf8;
+            color: #fff;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        .comment-button:hover {
+            background-color: #4a8bd4;
+        }
+        .not-found {
+            margin-top: 100px;
+            text-align: center;
+            font-size: 35px;
+            font-weight: bold;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .pagination a,
+        .pagination span {
+            padding: 10px 15px;
+            border-radius: 5px;
+            background: #5e9cf8;
+            color: #fff;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .pagination a:hover,
+        .pagination span:hover {
+            background: #4a8bd4;
+            color: black;
+        }
+        .pagination .current,
+        .pagination .disabled {
+            background: #5e9cf8;
+            color: #fff;
+            cursor: default;
+        }
+        .pagination .current:hover,
+        .pagination .disabled:hover {
+            background: #4a8bd4;
+            color: #fff;
+        }
+        .pagination .prev,
+        .pagination .next {
+            background: none;
+            color: #fff;
+            border: 1px solid #5e9cf8;
+        }
+        .pagination .prev:hover,
+        .pagination .next:hover {
+            background: #4a8bd4;
+            color: #fff;
+        }
+    </style>
+
+    <div class="blog-container">
+        <h1>Blog Posts</h1>
+        {% if is_granted('ROLE_USER') %}
+            <a href="{{ path('post.create') }}" class="new-post-button">New Post</a>
+        {% endif %}
+        {% for post in posts %}
+            <a class="show" href="{{ path('post.show', {id: post.post.id}) }}">
+                <div class="post-card">
+                    <h2>{{ post.post.title }}</h2>
+                    <span class="author">Author: {{ post.post.user.username }}</span>
+                    <div class="post-content">
+                        {{ post.post.content|slice(0, 300) }}{% if post.post.content|length > 300 %}...{% endif %}
+                    </div>
+                    <div class="post-meta">
+                        <span>Category: {{ post.post.category.name }}</span> |
+                        <span>Created At: {{ post.post.createdAt|date('Y-m-d H:i') }}</span><br>
+                    </div>
+                    <div class="post-comment">
+                        <span>Total Comments: {{ post.totalComments | default('none')}}</span>
+                    </div>
+                    <div class="post-actions">
+                        {% if (is_granted('ROLE_USER') and post.post.user.id == user.id) %}
+                            <a href="{{ path('admin.post.edit', {id: post.post.id}) }}">
+                                <svg class="edit-icon" viewBox="0 0 24 24">
+                                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.92-2.92l7.06-7.06 1.75 1.75-7.06 7.06H5.92v-1.75H3v1.75h1.75v1.75h1.75v-1.75H8.42V15h-1.75v-1.75h-1.75v1.75h-1.75v-1.75H5.92v-1.75H3v1.75H5.92z"></path>
+                                </svg>
+                            </a>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('post.delete', {id: post.post.id}) }}">
+                                <svg class="delete-icon" viewBox="0 0 24 24">
+                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2-10h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z"></path>
+                                </svg>
+                            </a>
+                        {% endif %}
+                    </div>
+                    <a href="{{ path('comment.create', {id: post.post.id}) }}" class="comment-button">Add Comment</a>
+                </div>
+            </a>
+        {% else %}
+            <p class="not-found">No posts found.</p>
+        {% endfor %}
+    </div>
+
+    {{ knp_pagination_render(posts) }}
+{% endblock %}

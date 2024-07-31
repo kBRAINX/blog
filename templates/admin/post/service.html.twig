@@ -1,0 +1,170 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}Services Posts{% endblock %}
+
+{% block body %}
+    <style>
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            width:100%;
+            min-height: 100vh;
+            background-color: #f9f9f9;
+        }
+        .blog-container {
+            max-width: 1500px;
+            margin: 2em auto;
+            padding: 0 20px;
+        }
+        .new-post-button {
+            text-decoration: none;
+            display: block;
+            width: 150px;
+            margin: 0 auto 20px;
+            padding: 10px 20px;
+            background-color: #5e9cf8;
+            color: #fff;
+            font-size: 20px;
+            text-align: center;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .new-post-button:hover {
+            background-color: #4a8bd4;
+        }
+        .service-filter {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .service-filter a {
+            font-size: 20px;
+            margin: 0 10px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .service-filter a.active {
+            background-color: #5e9cf8;
+            color: #fff;
+        }
+        .service-filter a.inactive {
+            background-color: #fff;
+            color: #000;
+        }
+        .show{
+            text-decoration: none;
+        }
+        .post-card {
+            position: relative;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2em;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .post-card h2 {
+            color: #5e9cf8;
+            margin-bottom: 0.5em;
+            text-decoration: none;
+        }
+        .post-meta {
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 1em;
+        }
+        .post-content {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 1em;
+            line-height: 1.6;
+        }
+        .edit-icon {
+            position: absolute;
+            top: 20px;
+            right: 70px;
+            width: 35px;
+            height: 35px;
+            fill: #5e9cf8;
+            cursor: pointer;
+            transition: fill 0.3s ease;
+        }
+        .edit-icon:hover {
+            fill: #4a8bd4;
+        }
+        .delete-icon {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            width: 35px;
+            height: 35px;
+            fill: #e74c3c;
+            cursor: pointer;
+            transition: fill 0.3s ease;
+        }
+        .delete-icon:hover {
+            fill: #c0392b;
+        }
+        .comment-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #5e9cf8;
+            color: #fff;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .comment-button:hover {
+            background-color: #4a8bd4;
+        }
+        .not-found {
+            margin-top: 100px;
+            text-align: center;
+            font-size: 35px;
+            font-weight: bold;
+        }
+    </style>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="main-content">
+            <div class="blog-container">
+                <h1>Services Posts</h1>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('admin.post.create') }}" class="new-post-button">New Post</a>
+                {% endif %}
+
+                <div class="service-filter">
+                    <a href="javascript:void(0);" class="{{ currentService == 'all' ? 'active' : 'inactive' }}" onclick="filterPosts('all')">All</a>
+                    {% for service in services %}
+                        <a href="javascript:void(0);" class="{{ currentService == service.id ? 'active' : 'inactive' }}" onclick="filterPosts('{{ service.id }}')">{{ service.name }}</a>
+                    {% endfor %}
+                </div>
+
+                <div id="posts-container">
+                    {% include 'admin/post/post_list.html.twig' with {'posts': posts} %}
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function filterPosts(serviceId) {
+                fetch('{{ path('admin.post.filter') }}?service=' + serviceId)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('posts-container').innerHTML = html;
+                        document.querySelectorAll('.service-filter a').forEach(link => {
+                            link.className = 'inactive';
+                        });
+                        document.querySelector(`.service-filter a[onclick="filterPosts('${serviceId}')"]`).className = 'active';
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        </script>
+    {% endif %}
+
+{% endblock %}

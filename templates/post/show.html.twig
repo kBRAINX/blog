@@ -1,0 +1,208 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block body %}
+    <style>
+        .post-container {
+            max-width: 800px;
+            margin: 2em auto;
+            padding: 0 20px;
+        }
+        .post-card {
+            position: relative;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .post-card h1 {
+            color: #5e9cf8;
+            margin-bottom: 0.5em;
+        }
+        .post-meta {
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 1em;
+        }
+        .author{
+            font-size: 16px;
+            color: #333333;
+            flex-wrap: wrap;
+        }
+        .post-content {
+            margin-bottom: 1em;
+            color: #333;
+            line-height: 1.6;
+            font-size: 20px;
+        }
+        .edit-icon {
+            position: absolute;
+            top: 20px;
+            right: 70px;
+            width: 35px;
+            height: 35px;
+            fill: #5e9cf8;
+            cursor: pointer;
+            transition: fill 0.3s ease;
+        }
+        .edit-icon:hover {
+            fill: #4a8bd4;
+        }
+        .delete-icon {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            width: 35px;
+            height: 35px;
+            fill: #e74c3c;
+            cursor: pointer;
+            transition: fill 0.3s ease;
+        }
+        .delete-icon:hover {
+            fill: #c0392b;
+        }
+        .comment-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #5e9cf8;
+            color: #fff;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        .comment-button:hover {
+            background-color: #4a8bd4;
+        }
+        .comment-section {
+            margin-top: 2em;
+            border-top: 1px solid #eaeaea;
+            padding-top: 1em;
+        }
+        .comment {
+            position: relative;
+            border-bottom: 1px solid #eaeaea;
+            padding: 10px 0;
+        }
+        .comment-author {
+            font-weight: bold;
+            color: #333;
+        }
+        .comment-date {
+            color: #999;
+            font-size: 0.8em;
+        }
+        .comment-content {
+            margin-top: 5px;
+            color: #555;
+            font-size: 18px;
+        }
+        .comment-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .edit-icon-comment {
+            position: absolute;
+            top: 20px;
+            right: 60px;
+            width: 20px;
+            height: 20px;
+            fill: #5e9cf8;
+            cursor: pointer;
+            transition: fill 0.3s ease;
+        }
+        .delete-icon-comment {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            width: 20px;
+            height: 20px;
+            fill: #5e9cf8;
+            cursor: pointer;
+            transition: fill 0.3s ease;
+        }
+        .edit-icon-comment:hover, .delete-icon-comment:hover {
+            fill: #4a8bd4;
+        }
+        .back-link a {
+            text-decoration: none;
+            color: #5e9cf8;
+            font-weight: bold;
+            font-size: 22px;
+            display: block;
+            margin-bottom: 20px;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+            color: #4a8bd4;
+        }
+    </style>
+
+    <div class="post-container">
+        <div class="post-card">
+            <div class="back-link">
+                <a href="{{ path('post.index') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5m7-7l-7 7 7 7"></path>
+                    </svg>
+                    Back
+                </a>
+            </div>
+            <h1>{{ post.title }}</h1>
+            <span class="author">Author: {{ post.user.username }}</span>
+            <div class="post-content">{{ post.content }}</div>
+            <div class="post-meta">
+                <span>Category: {{ post.category.name }}</span> |
+                <span>Created At: {{ post.createdAt|date('Y-m-d H:i') }}</span>
+            </div>
+            <div class="post-actions">
+                {% if is_granted('ROLE_USER') and post.user.id == user.id %}
+                    <a href="{{ path('admin.post.edit', {id: post.id}) }}">
+                        <svg class="edit-icon" viewBox="0 0 24 24">
+                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.92-2.92l7.06-7.06 1.75 1.75-7.06 7.06H5.92v-1.75H3v1.75h1.75v1.75h1.75v-1.75H8.42V15h-1.75v-1.75h-1.75v1.75h-1.75v-1.75H5.92v-1.75H3v1.75H5.92z"></path>
+                        </svg>
+                    </a>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('post.delete', {id: post.id}) }}">
+                        <svg class="delete-icon" viewBox="0 0 24 24">
+                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2-10h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z"></path>
+                        </svg>
+                    </a>
+                {% endif %}
+            </div>
+            <a href="{{ path('comment.create', {id: post.id}) }}" class="comment-button">Add Comment</a>
+            <div class="comment-section">
+                <h2>Comments</h2>
+                {% for comment in comments %}
+                    <div class="comment">
+                        <span class="comment-author">{{ comment.user.username }}</span> |
+                        <span class="comment-date">{{ comment.createdAt|date('Y-m-d H:i') }}</span>
+                        <div class="comment-content">{{ comment.content }}</div>
+                        {% if is_granted('ROLE_USER') and comment.user.id == user.id %}
+                            <div class="comment-actions">
+                                <a href="{{ path('comment.edit', {id: comment.id}) }}">
+                                    <svg class="edit-icon-comment" viewBox="0 0 24 24">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.92-2.92l7.06-7.06 1.75 1.75-7.06 7.06H5.92v-1.75H3v1.75h1.75v1.75h1.75v-1.75H8.42V15h-1.75v-1.75h-1.75v1.75h-1.75v-1.75H5.92v-1.75H3v1.75H5.92z"></path>
+                                    </svg>
+                                </a>
+                                <a href="{{ path('comment.delete', {id: comment.getId}) }}">
+                                    <svg class="delete-icon-comment" viewBox="0 0 24 24">
+                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2-10h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {{ knp_pagination_render(comments) }}
+{% endblock %}

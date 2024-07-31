@@ -1,0 +1,121 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+    <style>
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            width: 100%;
+            min-height: 100vh;
+            background-color: #f9f9f9;
+        }
+        .user-table-container {
+            max-width: 100%;
+            margin: 2em auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .user-table-container h1{
+            font-size: 50px;
+            font-family: 'Arial', sans-serif;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+        }
+        .user-table th,
+        .user-table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        .user-table th {
+            background-color: #5e9cf8;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .user-table th.start {
+            border-radius: 10px 0 0;
+            background-color: #5e9cf8;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .user-table th.end {
+            border-radius: 0 10px 0 0;
+            background-color: #5e9cf8;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .user-table td a {
+            color: #5e9cf8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .user-table td a:hover {
+            color: #4a8bd4;
+        }
+        .delete-icon {
+            width: 30px;
+            height: 30px;
+            fill: #e74c3c;
+            cursor: pointer;
+            transition: fill 0.3s ease;
+        }
+        .delete-icon:hover {
+            fill: #c0392b;
+        }
+    </style>
+
+    <div class="main-content">
+        <div class="user-table-container">
+            <h1>User List</h1>
+            <table class="user-table">
+                <thead>
+                <tr>
+                    <th class="start">Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th class="end">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users|slice(0, 5) %}
+                    {% if user.roles == ['ROLE_USER'] or user.roles == ['ROLE_USER', 'ROLE_VERIFIED'] %}
+                        <tr>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                {% for role in user.roles %}
+                                    {{ role }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                <a href="{{ path('admin.user.delete', {id: user.id}) }}" class="action-button">
+                                    <svg class="delete-icon" viewBox="0 0 24 24">
+                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2-10h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z"></path>
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 20px;">No users found.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

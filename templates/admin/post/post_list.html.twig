@@ -1,0 +1,37 @@
+{% for post in posts %}
+    <a class="show" href="{{ path('admin.post.show', {id: post.post.id}) }}">
+        <div class="post-card">
+            <h2>{{ post.post.title }}</h2>
+            <span class="author">Author: {{ post.post.user.username }}</span>
+            <div class="post-content">
+                {{ post.post.content|slice(0, 300) }}{% if post.post.content|length > 300 %}...{% endif %}
+            </div>
+            <div class="post-meta">
+                <span>Category: {{ post.post.category.name }}</span> |
+                <span>Created At: {{ post.post.createdAt|date('Y-m-d H:i') }}</span><br>
+            </div>
+            <div class="post-comment">
+                <span>Total Comments: {{ post.totalComments | default('none')}}</span>
+            </div>
+            <div class="post-actions">
+                {% if is_granted('ROLE_ADMIN') and post.post.user.id == user.id %}
+                    <a href="{{ path('admin.post.edit', {id: post.post.id}) }}">
+                        <svg class="edit-icon" viewBox="0 0 24 24">
+                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.92-2.92l7.06-7.06 1.75 1.75-7.06 7.06H5.92v-1.75H3v1.75h1.75v1.75h1.75v-1.75H8.42V15h-1.75v-1.75h-1.75v1.75h-1.75v-1.75H5.92v-1.75H3v1.75H5.92z"></path>
+                        </svg>
+                    </a>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('post.delete', {id: post.post.id}) }}">
+                        <svg class="delete-icon" viewBox="0 0 24 24">
+                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2-10h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z"></path>
+                        </svg>
+                    </a>
+                {% endif %}
+            </div>
+            <a href="{{ path('admin.comment.create', {id: post.post.id}) }}" class="comment-button">Add Comment</a>
+        </div>
+    </a>
+{% else %}
+    <p class="not-found">No posts found.</p>
+{% endfor %}
