@@ -234,9 +234,9 @@ on the first start with project we have these interfaces:
 
 #### Contact
 
+![Home](./public/images/contact.png)
 
-
-After user have connect two page have a new design: 
+After user have connected two page have a new design: 
 
 #### Blog Post
 
@@ -246,7 +246,7 @@ After user have connect two page have a new design:
 
 ![Home](./public/images/filter2.png)
 
-And the last we have a admin view to Admins
+And the last we have an admin view to Admins
 
 #### Dashboard
 
