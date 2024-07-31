@@ -3,7 +3,7 @@ name: Sync to GitLab
 on:
   push:
     branches:
-      - main # Ou la branche de votre choix
+      - main # Replace with your branch name if different
 
 jobs:
   sync:
@@ -11,11 +11,11 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/RECIPES
+        uses: actions/checkout@v3
 
       - name: Push to GitLab
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
         run: |
-          git remote add gitlab https://gitlab.com/kBRAINX/share-recipes.git
+          git remote add gitlab https://oauth2:${GITLAB_TOKEN}@gitlab.com/kBRAINX/share-recipes.git
           git push gitlab main
